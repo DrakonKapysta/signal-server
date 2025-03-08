@@ -55,7 +55,7 @@ export class EventsGateway implements OnModuleInit, OnApplicationBootstrap {
       socket.emit('offer', data);
     }
   }
-  @SubscribeMessage('webRTCCreateAnswer')
+  @SubscribeMessage('newRTCCreateAnswer')
   createAnswer(@MessageBody() data: { targetSocketId: string }): void {
     const socket = this.userSocketService.findUserBySocketId(
       data.targetSocketId,
@@ -72,6 +72,15 @@ export class EventsGateway implements OnModuleInit, OnApplicationBootstrap {
     console.log(data);
     if (socket) {
       socket.emit('ice-candidate', data);
+    }
+  }
+  @SubscribeMessage('hang-up')
+  hangUp(@MessageBody() data: { targetSocketId: string }): void {
+    const socket = this.userSocketService.findUserBySocketId(
+      data.targetSocketId,
+    );
+    if (socket) {
+      socket.emit('hang-up', data);
     }
   }
 }
