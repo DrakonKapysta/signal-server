@@ -4,7 +4,7 @@ import {
   RoomInfo,
   SocketData,
 } from 'src/common/interfaces/socket-data.interface';
-import { SocketUser } from '../common/interfaces/socket-user.interface';
+import { SocketUser } from 'src/common/interfaces/socket-user.interface';
 
 @Injectable()
 export class UserSocketService {
