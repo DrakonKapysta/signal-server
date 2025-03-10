@@ -1,14 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { Socket } from 'socket.io';
-import { SocketData } from 'src/common/interfaces/socket-data.interface';
+import {
+  RoomInfo,
+  SocketData,
+} from 'src/common/interfaces/socket-data.interface';
 import { SocketUser } from '../common/interfaces/socket-user.interface';
 
 @Injectable()
 export class UserSocketService {
   private connnectedSockets: Map<string, Socket>;
+  private rooms: Map<string, RoomInfo>;
 
   constructor() {
     this.connnectedSockets = new Map<string, Socket>();
+    this.rooms = new Map<string, RoomInfo>();
+  }
+  addRoom(roomName: string, roomInfo: RoomInfo): void {
+    this.rooms.set(roomName, roomInfo);
+  }
+  roomExists(roomName: string): boolean {
+    return this.rooms.has(roomName);
+  }
+  getRoomInfo(roomName: string): RoomInfo | undefined {
+    return this.rooms.get(roomName);
+  }
+  removeRoom(roomName: string): void {
+    this.rooms.delete(roomName);
   }
   addSocket(socket: Socket): void {
     this.connnectedSockets.set(socket.id, socket);
